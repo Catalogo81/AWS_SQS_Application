@@ -1,7 +1,6 @@
-package com.example.sqsspringboot.configuration.controller;
+package com.example.sqsspringboot.sender;
 
 import io.awspring.cloud.messaging.core.QueueMessagingTemplate;
-import io.awspring.cloud.messaging.listener.annotation.SqsListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.support.MessageBuilder;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SQSController {
-
+public class SQSMessageSender
+{
     @Autowired
     private QueueMessagingTemplate queueMessagingTemplate;
 
@@ -20,15 +19,9 @@ public class SQSController {
 
     //This method sends the messages to the queue
     @GetMapping("/put/{msg}")
-    public void putMessagesToQueue(@PathVariable("msg") String message)
+    public void putMessagesToQueue(@PathVariable("msg") String sentMessage)
     {
-        queueMessagingTemplate.send(endPoint, MessageBuilder.withPayload(message).build());
-    }
-
-    //This method gets the messages from the queue
-    @SqsListener("sqs-queue") //listens to our queue
-    public void loadMessagesFromQueue(String message)
-    {
-        System.out.println("Queue Messages: " + message);
+        queueMessagingTemplate.send(endPoint, MessageBuilder.withPayload(sentMessage).build());
+        System.out.println("Message sent to queue: " + sentMessage);
     }
 }

@@ -2,6 +2,7 @@ package com.example.sqsspringboot.configuration;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
@@ -20,6 +21,7 @@ public class AmazonSQSConfiguration
     @Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
 
+
     //Queue messaging template
     @Bean
     public QueueMessagingTemplate queueMessagingTemplate()
@@ -28,8 +30,10 @@ public class AmazonSQSConfiguration
         return new QueueMessagingTemplate(buildAmazonSQSAsync());
     }
 
+
     private AmazonSQSAsync buildAmazonSQSAsync() {
 
+        //DefaultAWSCredentialsProviderChain defaultAWSCredentialsProviderChain = new DefaultAWSCredentialsProviderChain();
         //returns the Amazon SQS Async queue object
         return AmazonSQSAsyncClientBuilder
                 .standard()
