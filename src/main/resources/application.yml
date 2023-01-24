@@ -1,3 +1,10 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+
 cloud:
   aws:
     region:
@@ -8,7 +15,6 @@ cloud:
     credentials:
       access-key: AKIAU57TVT4LDGJYRPPH
       secret-key: 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
-#      useDefaultAwsCredentialsChain: true #Will use credentials in /.aws
     end-point:
       uri: https://sqs.us-east-1.amazonaws.com/339276570390/sqs-queue
 

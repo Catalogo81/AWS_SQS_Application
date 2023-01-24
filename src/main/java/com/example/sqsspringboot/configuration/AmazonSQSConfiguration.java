@@ -2,14 +2,13 @@ package com.example.sqsspringboot.configuration;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import io.awspring.cloud.messaging.core.QueueMessagingTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class AmazonSQSConfiguration
@@ -30,14 +29,14 @@ public class AmazonSQSConfiguration
         return new QueueMessagingTemplate(buildAmazonSQSAsync());
     }
 
+    @Bean
+    @Primary
+    public AmazonSQSAsync buildAmazonSQSAsync() {
 
-    private AmazonSQSAsync buildAmazonSQSAsync() {
-
-        //DefaultAWSCredentialsProviderChain defaultAWSCredentialsProviderChain = new DefaultAWSCredentialsProviderChain();
         //returns the Amazon SQS Async queue object
         return AmazonSQSAsyncClientBuilder
                 .standard()
-                .withRegion(Regions.US_EAST_1)
+                .withRegion("us_east_1"/*Regions.US_EAST_1*/)
                 .withCredentials(
                         new AWSStaticCredentialsProvider(
                                 new BasicAWSCredentials(accessKey, secretKey)
